@@ -1,10 +1,18 @@
-import {Table, Model, Column, DataType} from "sequelize-typescript";
+import {Table, Model, Column, DataType, Scopes, DefaultScope} from "sequelize-typescript";
 
 interface UserCreationAttrs {
     email: string;
     password: string;
 }
 
+@DefaultScope(() => ({
+    attributes: {exclude: ['password']}
+}))
+@Scopes(() => ({
+    withPassword: {
+        attributes: {include: ['password']}
+    }
+}))
 @Table({tableName: 'users'})
 export class User extends Model<User, UserCreationAttrs> {
     @Column({type: DataType.INTEGER, unique: true, autoIncrement: true, primaryKey: true})

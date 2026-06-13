@@ -18,8 +18,9 @@ export class UsersService {
         return users
     }
 
-    async getUserByEmail(email: string) {
-        const users = await this.userRepository.findOne({where: {email}, include: {all: true}})
-        return users
+    async getUserByEmail(email: string, withPassword = false) {
+        const repo = withPassword ? this.userRepository.scope('withPassword') : this.userRepository;
+        const user = await repo.findOne({where: {email}, include: {all: true}})
+        return user
     }
 }
