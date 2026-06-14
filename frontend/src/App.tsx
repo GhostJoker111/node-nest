@@ -2,6 +2,7 @@ import React from 'react';
 import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-dom';
 import './App.css';
 import LoginForm from './components/LoginForm';
+import RegisterForm from './components/RegisterForm';
 import UserTable from './components/UserTable';
 
 const isAuthenticated = () => {
@@ -23,6 +24,7 @@ const App: React.FC = () => {
             <Routes>
               <Route path="/" element={<Navigate to="/users" replace />} />
               <Route path="/login" element={<LoginForm />} />
+              <Route path="/register" element={<RegisterForm />} />
               <Route
                   path="/users"
                   element={

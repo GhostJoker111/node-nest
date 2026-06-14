@@ -10,7 +10,10 @@ import { AuthModule } from './auth/auth.module';
     controllers: [],
     providers: [],
     imports:[
+        // forRoot + isGlobal — это общая коробка
+        // isGlobal:true => настройки (ConfigService) видны в любом модуле, не нужно импортить заново
         ConfigModule.forRoot({
+            isGlobal: true,
             envFilePath: ".env"
         }),
         SequelizeModule.forRoot({

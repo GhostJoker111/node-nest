@@ -2,20 +2,27 @@ import React, { useState } from 'react';
 import { useNavigate, Link } from 'react-router-dom';
 import axios from 'axios';
 
-const LoginForm: React.FC = () => {
+const RegisterForm: React.FC = () => {
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
+    const [confirm, setConfirm] = useState('');
     const [loading, setLoading] = useState(false);
     const [error, setError] = useState('');
     const navigate = useNavigate();
 
-    const handleLogin = async (e: React.FormEvent) => {
+    const handleRegister = async (e: React.FormEvent) => {
         e.preventDefault();
-        setLoading(true);
         setError('');
 
+        if (password !== confirm) {
+            setError('Пароли не совпадают');
+            return;
+        }
+
+        setLoading(true);
         try {
-            const response = await axios.post('/auth/login', { email, password });
+            // бэкенд хэширует пароль и сразу возвращает токен (автологин после регистрации)
+            const response = await axios.post('/auth/registration', { email, password });
 
             if (response.data.token) {
                 localStorage.setItem('token', response.data.token);
@@ -25,7 +32,7 @@ const LoginForm: React.FC = () => {
             setError(
                 error.response?.data?.message ||
                 error.message ||
-                'Произошла ошибка при входе'
+                'Произошла ошибка при регистрации'
             );
         } finally {
             setLoading(false);
@@ -34,9 +41,9 @@ const LoginForm: React.FC = () => {
 
     return (
         <div className="login-form">
-            <h2 className="form-title">Вход в систему</h2>
+            <h2 className="form-title">Регистрация</h2>
             {error && <div className="error-message">{error}</div>}
-            <form onSubmit={handleLogin}>
+            <form onSubmit={handleRegister}>
                 <div className="form-group">
                     <label htmlFor="email">Email</label>
                     <input
@@ -61,20 +68,32 @@ const LoginForm: React.FC = () => {
                     />
                 </div>
 
+                <div className="form-group">
+                    <label htmlFor="confirm">Повторите пароль</label>
+                    <input
+                        type="password"
+                        id="confirm"
+                        placeholder="Повторите пароль"
+                        value={confirm}
+                        onChange={(e) => setConfirm(e.target.value)}
+                        required
+                    />
+                </div>
+
                 <button
                     type="submit"
                     className="submit-button"
                     disabled={loading}
                 >
-                    {loading ? 'Загрузка...' : 'Войти'}
+                    {loading ? 'Загрузка...' : 'Зарегистрироваться'}
                 </button>
             </form>
 
             <p className="form-switch">
-                Нет аккаунта? <Link to="/register">Зарегистрироваться</Link>
+                Уже есть аккаунт? <Link to="/login">Войти</Link>
             </p>
         </div>
     );
 };
 
-export default LoginForm;
+export default RegisterForm;

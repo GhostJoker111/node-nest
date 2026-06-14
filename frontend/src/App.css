@@ -73,6 +73,22 @@ body {
   margin-bottom: 15px;
 }
 
+.form-switch {
+  margin-top: 15px;
+  text-align: center;
+  font-size: 14px;
+  color: #555;
+}
+
+.form-switch a {
+  color: #007bff;
+  text-decoration: none;
+}
+
+.form-switch a:hover {
+  text-decoration: underline;
+}
+
 /* Таблица пользователей */
 .user-table-container {
   background: white;
