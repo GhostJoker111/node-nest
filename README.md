@@ -71,10 +71,15 @@ npm start
 ## Тесты
 
 ```bash
-npm run test        # unit-тесты
-npm run test:e2e    # e2e-тесты
-npm run test:cov    # покрытие
+# unit-тесты (база не нужна, все зависимости замоканы)
+npm test
+
+# e2e-тесты: реальные HTTP-запросы к приложению, нужна база
+docker compose up -d postgres
+npm run test:e2e
 ```
+
+CI прогоняет оба вида тестов при каждом пуше в `main`.
 
 ## CI/CD
 
