@@ -77,6 +77,10 @@ npm test
 # e2e-тесты: реальные HTTP-запросы к приложению, нужна база
 docker compose up -d postgres
 npm run test:e2e
+
+# тесты фронтенда (React Testing Library)
+cd frontend
+npm test
 ```
 
 CI прогоняет оба вида тестов при каждом пуше в `main`.
